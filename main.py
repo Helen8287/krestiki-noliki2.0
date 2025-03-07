@@ -8,6 +8,7 @@ window.geometry("300x350")
 current_player = "X"
 buttons = []
 
+# Функция для проверки победителя
 def check_winner ():
     for i in range (3):
         if buttons [i][0]["text"] == buttons [i][1] ["text"]== buttons [i][2]["text"] != "":
@@ -21,7 +22,16 @@ def check_winner ():
 
     return False
 
+# Функция  проверяет, заполнены ли все кнопки, что указывает на ничью.
+def check_draw():
+    for row in buttons:
+        for btn in row:
+            if btn["text"] == "":
+                return False
+    return True
 
+
+# Функция, срабатывающая при нажатии на кнопку. Управляет ходами игроков и проверяет условия победы или ничьей.
 def on_click( row, col ):
     global current_player
 
@@ -32,10 +42,28 @@ def on_click( row, col ):
 
     if check_winner():
         messagebox.showinfo("Игра окончена", f"Игрок {current_player} победил!")
+        reset_game()
+    elif check_draw():
+        messagebox.showinfo("Вы оба молодцы!","Получилась ничья!")
+        reset_game()
+    else:
+        current_player = "0" if current_player == "X" else "X"
 
-    current_player = "0" if current_player == "X" else "X"
+
+def counter_game():
+    pass
 
 
+# Функция сбрасывает состояние игры для нового раунда.
+def reset_game():
+    global current_player
+    current_player = "X"
+    for row in buttons:
+        for btn in row:
+            btn["text"] = ""
+
+
+# Создание кнопок для игры
 for i in range(3):
     row = []
     for j in range(3):
